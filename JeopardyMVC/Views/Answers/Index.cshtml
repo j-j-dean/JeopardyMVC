@@ -1,0 +1,85 @@
+﻿@model IEnumerable<JeopardyLibrary.Models.Answers>
+
+@{
+    ViewData["Title"] = "Answers";
+}
+
+<h1 id="view-title">@ViewData["Title"]</h1>
+
+<p>
+    @{
+        if (ViewData["TypeOfData"].ToString() == "Many")
+        {
+            <label id="label-id" for="limit-by-list">Select question:</label>
+        }
+
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        var lastQuestionName = "";
+        foreach (var item in Model)
+        {
+            if (item.Question.Question != lastQuestionName)
+            {
+                listItems.Add(new SelectListItem
+                {
+                    Text = item.Question.Question,
+                    Value = item.QuestionId.ToString()
+                });
+                lastQuestionName = item.Question.Question;
+            }
+        }
+        @Html.DropDownList("limit-by-list", listItems)
+        <br />
+
+        if (ViewData["TypeOfData"].ToString() == "Many")
+        {
+            <a id="limit-by-id" asp-action="Index" asp-route-id="FromJavaScript">Limit by Selection</a>
+        }
+        else
+        {
+            <a id="all-categories" asp-action="Index" asp-route-id="">All categories</a>
+        }
+
+    }
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Answer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CorrectAnswer)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Answer)
+                </td>
+                <td>
+                    @Html.DisplayFor(ModelItem => item.QuestionId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Question.Question)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CorrectAnswer)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

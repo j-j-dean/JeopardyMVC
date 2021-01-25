@@ -1,0 +1,123 @@
+﻿@model IEnumerable<JeopardyLibrary.Models.Answers>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@{
+    int NUM_CATS = 6; // number of categories
+    int NUM_QPC = 5; // number of questions per category
+    int NUM_APQ = 4; // number of answers per question
+
+    // Minimal check to verify the correct number of records exist to create the board
+    if (Model.Count() != NUM_CATS * NUM_QPC * NUM_APQ)
+    {
+        <h1>Please check data contents to ensure:</h1>
+        <h3>1) Six categories active</h3>
+        <h3>2) Five questions for each question in the active category</h3>
+        <h3>3) Four answers for each of those question</h3>
+    }
+    else
+    {
+        <div id="info-hdr">
+            <div id="score">
+                Your score is 0 - Good luck!
+            </div>
+            <div id="timer">
+            </div>
+        </div>
+
+        <div id="question-box">
+            <div id="question-and-answers">
+                <div id="the-question">Insert Question</div>
+                <br />
+                <div>
+                    <input type="radio" id="answer-a" name="answers" value="a" checked />
+                    <label for="answer-a">Answer a</label>
+                </div>
+                <div>
+                    <input type="radio" id="answer-b" name="answers" value="b" />
+                    <label for="answer-b">Answer b</label>
+                </div>
+                <div>
+                    <input type="radio" id="answer-c" name="answers" value="c" />
+                    <label for="answer-c">Answer c</label>
+                </div>
+                <div>
+                    <input type="radio" id="answer-d" name="answers" value="d" />
+                    <label for="answer-d">Answer d</label>
+                </div>
+                <br />
+                <button id="final-answer" class="align-content-center" type="button">Submit Final Answer</button>
+            </div>
+        </div>
+
+        <div id="completion-box">
+            <div id="completion">
+                <h1>Way to go!</h1>
+                <img id="img-winner" src="https://j-j-dean.github.io/jeopardy/winner.jpg" alt="winner" />
+                <img id="img-balloons" src="https://j-j-dean.github.io/jeopardy/balloons.jpg" alt="balloons" />
+                <img id="img-bonus" src="https://j-j-dean.github.io/jeopardy/bonus.jpg" alt="bonus" />
+                <h2 id="completion-msg">You completed the challenge.</h2>
+               <button id="play-again">Click to Play Again!</button>
+            </div>
+        </div>
+
+        <div id="jeopardy-container">
+            @for (int cnum = 0; cnum < NUM_CATS; cnum++) // loop over number of categories
+            {
+                int cndx = cnum * NUM_QPC * NUM_APQ; // index of first element of category
+                int qndx = cndx;  // index of next question
+                <div id="jcolumn">
+                    <div class="jbox-header">
+                        <h5>@Model.ElementAt(cndx).Question.Categories.Name</h5>
+                    </div>
+                    <div class="jbox">
+                        <div class="points" cnum=@cnum qnum=0>@Model.ElementAt(qndx).Question.PointValue</div>
+                        <div class="question" cnum=@cnum qnum=0 hidden>@Model.ElementAt(qndx).Question.Question</div>
+                        <div class="answer-a" cnum=@cnum qnum=0 correct=@Model.ElementAt(qndx + 0).CorrectAnswer hidden>@Model.ElementAt(qndx + 0).Answer</div>
+                        <div class="answer-b" cnum=@cnum qnum=0 correct=@Model.ElementAt(qndx + 1).CorrectAnswer hidden>@Model.ElementAt(qndx + 1).Answer</div>
+                        <div class="answer-c" cnum=@cnum qnum=0 correct=@Model.ElementAt(qndx + 2).CorrectAnswer hidden>@Model.ElementAt(qndx + 2).Answer</div>
+                        <div class="answer-d" cnum=@cnum qnum=0 correct=@Model.ElementAt(qndx + 3).CorrectAnswer hidden>@Model.ElementAt(qndx + 3).Answer</div>
+                    </div>
+                    @{ qndx = qndx + NUM_APQ; }
+                    <div class="jbox">
+                        <div class="points" cnum=@cnum qnum=1>@Model.ElementAt(qndx).Question.PointValue</div>
+                        <div class="question" cnum=@cnum qnum=1 hidden>@Model.ElementAt(qndx).Question.Question</div>
+                        <div class="answer-a" cnum=@cnum qnum=1 correct=@Model.ElementAt(qndx + 0).CorrectAnswer hidden>@Model.ElementAt(qndx + 0).Answer</div>
+                        <div class="answer-b" cnum=@cnum qnum=1 correct=@Model.ElementAt(qndx + 1).CorrectAnswer hidden>@Model.ElementAt(qndx + 1).Answer</div>
+                        <div class="answer-c" cnum=@cnum qnum=1 correct=@Model.ElementAt(qndx + 2).CorrectAnswer hidden>@Model.ElementAt(qndx + 2).Answer</div>
+                        <div class="answer-d" cnum=@cnum qnum=1 correct=@Model.ElementAt(qndx + 3).CorrectAnswer hidden>@Model.ElementAt(qndx + 3).Answer</div>
+                    </div>
+                    @{ qndx = qndx + NUM_APQ; }
+                    <div class="jbox">
+                        <div class="points" cnum=@cnum qnum=2>@Model.ElementAt(qndx).Question.PointValue</div>
+                        <div class="question" cnum=@cnum qnum=2 hidden>@Model.ElementAt(qndx).Question.Question</div>
+                        <div class="answer-a" cnum=@cnum qnum=2 correct=@Model.ElementAt(qndx + 0).CorrectAnswer hidden>@Model.ElementAt(qndx + 0).Answer</div>
+                        <div class="answer-b" cnum=@cnum qnum=2 correct=@Model.ElementAt(qndx + 1).CorrectAnswer hidden>@Model.ElementAt(qndx + 1).Answer</div>
+                        <div class="answer-c" cnum=@cnum qnum=2 correct=@Model.ElementAt(qndx + 2).CorrectAnswer hidden>@Model.ElementAt(qndx + 2).Answer</div>
+                        <div class="answer-d" cnum=@cnum qnum=2 correct=@Model.ElementAt(qndx + 3).CorrectAnswer hidden>@Model.ElementAt(qndx + 3).Answer</div>
+                    </div>
+                    @{ qndx = qndx + NUM_APQ; }
+                    <div class="jbox">
+                        <div class="points" cnum=@cnum qnum=3>@Model.ElementAt(qndx).Question.PointValue</div>
+                        <div class="question" cnum=@cnum qnum=3 hidden>@Model.ElementAt(qndx).Question.Question</div>
+                        <div class="answer-a" cnum=@cnum qnum=3 correct=@Model.ElementAt(qndx + 0).CorrectAnswer hidden>@Model.ElementAt(qndx + 0).Answer</div>
+                        <div class="answer-b" cnum=@cnum qnum=3 correct=@Model.ElementAt(qndx + 1).CorrectAnswer hidden>@Model.ElementAt(qndx + 1).Answer</div>
+                        <div class="answer-c" cnum=@cnum qnum=3 correct=@Model.ElementAt(qndx + 2).CorrectAnswer hidden>@Model.ElementAt(qndx + 2).Answer</div>
+                        <div class="answer-d" cnum=@cnum qnum=3 correct=@Model.ElementAt(qndx + 3).CorrectAnswer hidden>@Model.ElementAt(qndx + 3).Answer</div>
+                    </div>
+                    @{ qndx = qndx + NUM_APQ; }
+                    <div class="jbox">
+                        <div class="points" cnum=@cnum qnum=4>@Model.ElementAt(qndx).Question.PointValue</div>
+                        <div class="question" cnum=@cnum qnum=4 hidden>@Model.ElementAt(qndx).Question.Question</div>
+                        <div class="answer-a" cnum=@cnum qnum=4 correct=@Model.ElementAt(qndx + 0).CorrectAnswer hidden>@Model.ElementAt(qndx + 0).Answer</div>
+                        <div class="answer-b" cnum=@cnum qnum=4 correct=@Model.ElementAt(qndx + 1).CorrectAnswer hidden>@Model.ElementAt(qndx + 1).Answer</div>
+                        <div class="answer-c" cnum=@cnum qnum=4 correct=@Model.ElementAt(qndx + 2).CorrectAnswer hidden>@Model.ElementAt(qndx + 2).Answer</div>
+                        <div class="answer-d" cnum=@cnum qnum=4 correct=@Model.ElementAt(qndx + 3).CorrectAnswer hidden>@Model.ElementAt(qndx + 3).Answer</div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+}

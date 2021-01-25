@@ -1,0 +1,36 @@
+﻿@model JeopardyLibrary.Models.Answers
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Answers</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Answer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Answer)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Question)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Question.Question)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.CorrectAnswer)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.CorrectAnswer)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a href="javascript:history.go(-1)">Back</a>
+</div>

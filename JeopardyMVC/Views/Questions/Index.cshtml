@@ -1,0 +1,84 @@
+﻿@model IEnumerable<JeopardyLibrary.Models.Questions>
+
+@{
+    ViewData["Title"] = "Questions";
+}
+
+<h1 id="view-title">@ViewData["Title"]</h1>
+
+<p>
+    @{
+        if (ViewData["TypeOfData"].ToString() == "Many")
+        {
+            <label id="label-id" for="limit-by-list">Select category:</label>
+        }
+
+        List<SelectListItem> listItems = new List<SelectListItem>();
+        var lastCatName = "";
+        foreach (var item in Model)
+        {
+            if (item.Categories.Name != lastCatName)
+            {
+                listItems.Add(new SelectListItem
+                {
+                    Text = item.Categories.Name,
+                    Value = item.CategoryId.ToString()
+                });
+                lastCatName = item.Categories.Name;
+            }
+        }
+        @Html.DropDownList("limit-by-list", listItems)
+        <br />
+ 
+        if (ViewData["TypeOfData"].ToString() == "Many")
+        {
+            <a id="limit-by-id" asp-action="Index" asp-route-id="FromJavaScript">Limit by Selection</a>
+        }
+        else
+        {
+            <a id="all-categories" asp-action="Index" asp-route-id="">All categories</a>
+        }
+    }
+
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Question)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PointValue)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model =>model.CategoryId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Categories)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Question)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PointValue)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CategoryId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Categories.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
